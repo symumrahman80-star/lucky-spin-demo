@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DKWin — Demo Game (No real money)</title>
+  <style>
+    :root{--bg:#071224;--card:#0b2230;--accent:#ff7a59;--muted:#9fb3c8}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#041020 0%,#071a2a 100%);color:#e7f2fb;display:flex;align-items:center;justify-content:center;height:100vh}
+    .wrap{width:980px;max-width:96%;display:grid;grid-template-columns:1fr 360px;gap:18px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+    header{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#ff7a59,#ff9b84);display:flex;align-items:center;justify-content:center;font-weight:800}
+    h1{margin:0;font-size:18px}
+    p.lead{margin:6px 0;color:var(--muted)}
+    .game-area{display:flex;flex-direction:column;align-items:center;gap:12px}
+    .credits{font-weight:700;font-size:20px}
+    .reels{display:flex;gap:10px}
+    .reel{width:120px;height:120px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-size:28px}
+    .controls{display:flex;gap:8px;margin-top:8px}
+    button{padding:10px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,#ff7a59,#ff7a59);color:white;font-weight:700;cursor:pointer}
+    input[type=number]{width:120px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .log{background:rgba(0,0,0,0.2);padding:10px;border-radius:8px;height:120px;overflow:auto;color:var(--muted);font-size:13px}
+    aside{display:flex;flex-direction:column;gap:12px}
+    .small{font-size:13px;color:var(--muted)}
+    .leader{max-height:220px;overflow:auto}
+    footer{margin-top:10px;color:var(--muted);font-size:13px}
+    @media(max-width:880px){.wrap{grid-template-columns:1fr;}.reel{width:90px;height:90px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="card">
+      <header>
+        <div class="logo">DG</div>
+        <div>
+          <h1>DKWin — Demo Game (শিক্ষামূলক)</h1>
+          <p class="lead">এই ডেমো শুধু শিক্ষার জন্য। এখানে কোনো বাস্তব অর্থ/পেমেন্ট নেই। ক্যাশ আউট নেই।</p>
+        </div>
+      </header>
+
+      <section class="game-area">
+        <div class="credits">ক্রেডিট: <span id="credits">1000</span></div>
+
+        <div style="display:flex;align-items:center;gap:14px">
+          <label class="small">বেট (ক্রেডিট):</label>
+          <input id="bet" type="number" min="1" value="50" />
+          <button id="spinBtn">Spin</button>
+          <button id="autoBtn">Auto x10</button>
+        </div>
+
+        <div class="reels" aria-hidden="false">
+          <div class="reel" id="r1">🍒</div>
+          <div class="reel" id="r2">🍋</div>
+          <div class="reel" id="r3">⭐</div>
+        </div>
+
+        <div class="controls">
+          <button id="resetBtn">Reset Demo</button>
+          <button id="saveBtn">Save Score</button>
+          <button id="rulesBtn">Rules</button>
+        </div>
+
+        <div class="log" id="log">
+          লগ:
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <div class="card">
+        <h3>নোট</h3>
+        <p class="small">এই ডেমো সম্পূর্ণভাবে ক্লায়েন্ট-সাইড। ফলাফল এলোমেলো (random) এবং কোন আর্থিক কার্যক্রম নেই। এটি স্কুল-স্তরের ডেমো যাতে তুমি ইউআই/লজিক পরীক্ষা করতে পারো।</p>
+      </div>
+
+      <div class="card">
+        <h3>Leaderboards (Local)</h3>
+        <div class="leader" id="leaderboard"></div>
+        <div style="margin-top:10px"><button id="clearLb">Clear Leaderboard</button></div>
+      </div>
+
+      <div class="card">
+        <h3>How it works</h3>
+        <ol class="small">
+          <li>প্রতিবার spin করলে বেটটি ক্রেডিট থেকে কমবে।</li>
+          <li>তিনটি একটি ধরনের হলে জেতবে — পে-আউট নির্ভর করে ফলাফলের উপর।</li>
+          <li>এই সাইটে কোনো বাস্তব টাকা নেই — নিরাপদভাবে পরীক্ষা করো।</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h4>Controls</h4>
+        <p class="small">Spin: একবার স্পিন। Auto: 10 বার অকটোমেটিক স্পিন (ডেমো)। Save Score: নাম দিয়ে লোকাল স্টোরেজে সেভ করবে।</p>
+      </div>
+
+      <footer class="card">
+        <small>© Demo — No real money. Use for learning only.</small>
+      </footer>
+    </aside>
+  </div>
+
+  <script>
+    // Simple client-side demo slot game
+    const symbols = ['🍒','🍋','⭐','🍇','🔔'];
+    const creditsEl = document.getElementById('credits');
+    const logEl = document.getElementById('log');
+    let credits = 1000;
+    const r1 = document.getElementById('r1');
+    const r2 = document.getElementById('r2');
+    const r3 = document.getElementById('r3');
+    const betEl = document.getElementById('bet');
+
+    function randItem(){return symbols[Math.floor(Math.random()*symbols.length)];}
+    function writeLog(txt){ logEl.textContent = new Date().toLocaleTimeString()+ ' - ' + txt + '\n' + logEl.textContent; }
+
+    function updateCredits(){ creditsEl.textContent = credits; }
+
+    function spinOnce(){
+      const bet = Math.max(1, Math.floor(Number(betEl.value)||1));
+      if(bet>credits){ writeLog('বেট অনেক বড় — পর্যাপ্ত ক্রেডিট নেই'); return; }
+      credits -= bet;
+      updateCredits();
+
+      // animate a little
+      const seq = [randItem(), randItem(), randItem(), randItem(), randItem(), randItem()];
+      let i=0;
+      const iv = setInterval(()=>{
+        r1.textContent = randItem();
+        r2.textContent = randItem();
+        r3.textContent = randItem();
+        i++; if(i>10){ clearInterval(iv);
+          // final result
+          const a = randItem(); const b = randItem(); const c = randItem();
+          r1.textContent=a; r2.textContent=b; r3.textContent=c;
+          evaluate(a,b,c,bet);
+        }
+      },80);
+    }
+
+    function evaluate(a,b,c,bet){
+      // simple payout rules
+      if(a===b && b===c){
+        let mult = 5; if(a==='⭐') mult=10; if(a==='🔔') mult=15;
+        const win = bet*mult;
+        credits += win;
+        writeLog('JETO: '+win+' (mult x'+mult+')');
+      } else if(a===b || b===c || a===c){
+        const win = Math.floor(bet*1.5);
+        credits += win;
+        writeLog('ADH JETO: '+win);
+      } else {
+        writeLog('HARLO: -'+bet);
+      }
+      updateCredits();
+      if(credits<=0) writeLog('ক্রেডিট শেষ — Reset করুন');
+    }
+
+    document.getElementById('spinBtn').addEventListener('click', ()=>spinOnce());
+    document.getElementById('resetBtn').addEventListener('click', ()=>{credits=1000;updateCredits();writeLog('Demo reset.');});
+
+    document.getElementById('autoBtn').addEventListener('click', async ()=>{
+      for(let i=0;i<10;i++){
+        if(credits<=0) break;
+        spinOnce();
+        await new Promise(r=>setTimeout(r,320));
+      }
+    });
+
+    // Leaderboard save
+    document.getElementById('saveBtn').addEventListener('click', ()=>{
+      const name = prompt('আপনার নাম লিখুন (local leaderboard):','Player');
+      if(!name) return;
+      const board = JSON.parse(localStorage.getItem('dk_demo_lb')||'[]');
+      board.push({name:name,score:credits,time:Date.now()});
+      board.sort((a,b)=>b.score-a.score);
+      localStorage.setItem('dk_demo_lb',JSON.stringify(board.slice(0,20)));
+      renderLeaderboard();
+      writeLog('Score saved for '+name);
+    });
+
+    function renderLeaderboard(){
+      const el = document.getElementById('leaderboard');
+      const board = JSON.parse(localStorage.getItem('dk_demo_lb')||'[]');
+      if(board.length===0){ el.innerHTML='<div class="small">কোনো সেভ করা স্কোর নেই</div>'; return; }
+      el.innerHTML = board.map((p,i)=>`<div style="padding:6px;border-bottom:1px solid rgba(255,255,255,0.03)">${i+1}. <strong>${p.name}</strong> — ${p.score} <div class="small">${new Date(p.time).toLocaleString()}</div></div>`).join('');
+    }
+
+    document.getElementById('clearLb').addEventListener('click', ()=>{ localStorage.removeItem('dk_demo_lb'); renderLeaderboard(); writeLog('Leaderboard cleared'); });
+
+    document.getElementById('rulesBtn').addEventListener('click', ()=>{
+      alert('Rules:\n1) এই ডেমোতে কেবল ক্লায়েন্ট-সাইড লজিক আছে.\n2) কোনো বাস্তব অর্থ নেই.\n3) নিরাপদভাবে পরীক্ষা করুন.');
+    });
+
+    // init
+    updateCredits(); renderLeaderboard(); writeLog('Demo ready — কোনো বাস্তব পেমেন্ট নেই');
+  </script>
+</body>
+</html>
